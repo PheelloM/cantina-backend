@@ -11,4 +11,6 @@ public class DrinkDto {
     private String description;
     private BigDecimal price;
     private String imageUrl;
+
+    public DrinkDto() {}
 }

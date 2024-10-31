@@ -46,7 +46,7 @@ public class AuthService {
     public User registerUser(RegisterRequest registerRequest) {
         // Check if the email is already in use
         if (userRepository.findByEmail(registerRequest.getEmail()).isPresent()) {
-            throw new IllegalArgumentException("Email already in use.");
+            throw new IllegalArgumentException(registerRequest.getEmail() + " Email already in use.");
         }
 
         // Create a new user
@@ -65,14 +65,13 @@ public class AuthService {
 
             // Set the authentication in the security context
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            System.out.println("############### " + authentication.getName() +  "############### " + authentication.getPrincipal() + "############### " + authentication.isAuthenticated());
+            System.out.println("############### " + authentication.getName() +  " generate token to login");
 
             // Generate JWT token based on authenticated user information
             return jwtTokenProvider.generateToken(authRequest.getEmail()); // or use authentication.getPrincipal()
 
         } catch (Exception e) {
-            //throw new UnauthorizedException("Invalid email or password.");
-            throw e;
+            throw new UnauthorizedException(e + "Invalid email or password.");
         }
     }
 }
